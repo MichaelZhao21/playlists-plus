@@ -1,12 +1,53 @@
 import React from 'react';
-import './App.css';
+import {
+    setAccessToken,
+    setRefreshToken,
+    setUserData,
+    setError,
+    setLoggedIn,
+} from './redux/actions';
+import {
+    getAccessToken,
+    getRefreshToken,
+    getUserData,
+    getError,
+    getLoggedIn,
+} from './redux/selectors';
+import { connect } from 'react-redux';
+import { login } from './spotify-api';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Playlists Plus!</h1>
-    </div>
-  );
+import './App.scss';
+
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        console.log(window.location.pathname)
+    }
+
+    render() {
+        return (
+            <div className="App">
+                <h1>Playlists Plus!</h1>
+                <button onClick={login}>Log In to Spotify!</button>
+            </div>
+        );
+    }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+    accessToken: getAccessToken(state),
+    refreshToken: getRefreshToken(state),
+    userData: getUserData(state),
+    error: getError(state),
+    loggedIn: getLoggedIn(state),
+});
+
+const mapDispatchToProps = {
+    setAccessToken,
+    setRefreshToken,
+    setUserData,
+    setError,
+    setLoggedIn,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

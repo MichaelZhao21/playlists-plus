@@ -1,7 +1,7 @@
 import Cookies from 'universal-cookie';
 import querystring from 'querystring';
-import creds from '../files/creds.json';
-import { getUserId, loadAccessToken } from './spot-middleware';
+import creds from './files/creds.json';
+import { getUserId, loadAccessToken } from './spotify-middleware';
 import { STATE_KEY } from './cookieConstants';
 
 /**
