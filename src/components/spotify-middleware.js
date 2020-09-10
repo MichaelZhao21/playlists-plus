@@ -1,6 +1,6 @@
 import { getTokens, getUserProfilePrivate, refreshKey } from './spotify-api';
 import Cookies from 'universal-cookie';
-import store from './redux/store';
+import store from '../redux/store';
 import {
     setError,
     setAccessToken,
@@ -8,8 +8,8 @@ import {
     setUserData,
     setLoggedIn,
     resetState,
-} from './redux/actions';
-import { getAccessToken, getUserData } from './redux/selectors';
+} from '../redux/actions';
+import { getAccessToken, getUserData } from '../redux/selectors';
 import { SAVE_KEY, STATE_KEY } from './cookieConstants';
 
 /**

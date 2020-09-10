@@ -5,16 +5,16 @@ import {
     setUserData,
     setError,
     setLoggedIn,
-} from './redux/actions';
+} from '../redux/actions';
 import {
     getAccessToken,
     getRefreshToken,
     getUserData,
     getError,
     getLoggedIn,
-} from './redux/selectors';
+} from '../redux/selectors';
 import { connect } from 'react-redux';
-import { login } from './spotify-api';
+import { login } from '../components/spotify-api';
 
 import './App.scss';
 
