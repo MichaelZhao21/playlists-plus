@@ -12,8 +12,10 @@ h1, h2, p, button {
 table {
   margin: auto;
   text-align: left;
+  border-collapse: collapse;
 }
 
 .user-table-row td {
+  padding: 1vh 0.5vw 1vh 0.5vw;
   border-bottom: 1px solid #999999;
 }
