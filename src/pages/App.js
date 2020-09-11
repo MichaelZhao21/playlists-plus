@@ -14,21 +14,44 @@ import {
     getLoggedIn,
 } from '../redux/selectors';
 import { connect } from 'react-redux';
-import { login } from '../components/spotify-api';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import './App.scss';
+import Login from './Login';
+import Callback from './Callback';
+import User from './User';
+import './css/App.scss';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
-        console.log(window.location.pathname)
+        this.state = {};
+    }
+
+    logout = () => {
+        console.log('logged out!');
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.accessToken !== prevProps.accessToken) {
+            if (this.props.accessToken !== null)
+                this.setState({
+                    logout: <button onClick={this.logout}>Logout</button>,
+                });
+            else this.setState({ logout: null });
+        }
     }
 
     render() {
         return (
             <div className="App">
-                <h1>Playlists Plus!</h1>
-                <button onClick={login}>Log In to Spotify!</button>
+                <BrowserRouter>
+                    {this.state.logout}
+                    <Switch>
+                        <Route path="/callback" component={Callback} />
+                        <Route path="/user" component={User} />
+                        <Route path="/" component={Login} />
+                    </Switch>
+                </BrowserRouter>
             </div>
         );
     }
