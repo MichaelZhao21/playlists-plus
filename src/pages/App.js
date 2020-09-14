@@ -51,7 +51,7 @@ class App extends React.Component {
         if (this.props.loggedIn !== prevProps.loggedIn) {
             if (this.props.loggedIn !== null)
                 this.setState({
-                    logout: <button onClick={this.logoutButton}>Logout</button>,
+                    logout: <button className="logout-button" onClick={this.logoutButton}>Logout</button>,
                 });
             else this.setState({ logout: null });
         }

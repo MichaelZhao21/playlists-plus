@@ -41,7 +41,7 @@ class User extends React.Component {
     render() {
         return (
             <div className="User">
-                <table><tbody>{this.state.userInfo}</tbody></table>
+                <table><tbody><tr className="user-table-row"><td></td><td></td></tr>{this.state.userInfo}</tbody></table>
             </div>
         );
     }
