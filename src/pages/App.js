@@ -27,8 +27,8 @@ import Refresh from './Refresh';
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
-        
+        this.state = { topStyle: { display: 'none' } };
+
         if (
             window.location.pathname !== '/callback' &&
             window.location.pathname !== '/' &&
@@ -51,7 +51,7 @@ class App extends React.Component {
         if (this.props.loggedIn !== prevProps.loggedIn) {
             if (this.props.loggedIn !== null)
                 this.setState({
-                    logout: <button className="logout-button" onClick={this.logoutButton}>Logout</button>,
+                    topStyle: { display: 'flex', justifyContent: 'center' },
                 });
             else this.setState({ logout: null });
         }
@@ -61,7 +61,14 @@ class App extends React.Component {
         return (
             <div className="App">
                 <BrowserRouter>
-                    {this.state.logout}
+                    <div className="top" style={this.state.topStyle}>
+                        <button
+                            className="logout-button"
+                            onClick={this.logoutButton}
+                        >
+                            Logout
+                        </button>
+                    </div>
                     <Switch>
                         <Route path="/refresh/:name" component={Refresh} />
                         <Route path="/callback" component={Callback} />
