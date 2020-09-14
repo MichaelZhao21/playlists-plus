@@ -1,15 +1,25 @@
 import React from 'react';
 
-import { getUserData } from '../redux/selectors';
+import { getUserData, getLoggedIn } from '../redux/selectors';
+import { setError, setLoggedIn } from '../redux/actions';
 import { connect } from 'react-redux';
-import { fetchTokens } from '../components/spotify-middleware';
+import { fetchTokens, isCallbackValid } from '../components/spotify-middleware';
 import { Redirect } from 'react-router';
 
 class Callback extends React.Component {
     constructor(props) {
         super(props);
+        let red = <h2>Loading...</h2>;
+        if (!isCallbackValid()) {
+            if (this.props.loggedIn) {
+                red = <Redirect to="/user" />;
+            } else {
+                this.props.setError(true);
+                red = <Redirect push to="/" />;
+            }
+        }
         this.state = {
-            redirect: <h2>Loading...</h2>,
+            redirect: red,
         };
     }
 
@@ -21,6 +31,7 @@ class Callback extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         // Redirect to user info page after logged in
         if (this.props.userData !== prevProps.userData && this.props.userData !== null) {
+            this.props.setLoggedIn(true);
             this.setState({ redirect: <Redirect push to="/user" /> });
         }
     }
@@ -30,4 +41,6 @@ class Callback extends React.Component {
     }
 }
 
-export default connect((state) => ({ userData: getUserData(state) }), null)(Callback);
+export default connect((state) => ({ userData: getUserData(state), loggedIn: getLoggedIn(state) }), { setError, setLoggedIn })(
+    Callback
+);

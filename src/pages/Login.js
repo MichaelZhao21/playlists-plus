@@ -1,15 +1,24 @@
 import React from 'react';
 import { login } from '../components/spotify-api';
+import { connect } from 'react-redux';
+import { getError, getLoggedIn } from '../redux/selectors';
 
 class Login extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            error: (this.props.error ? <p className="login-error">Error logging in!</p> : null)
+        }
+    }
     render() {
         return (
             <div className="Login">
                 <h1>Playlists Plus!</h1>
                 <button onClick={login}>Log In to Spotify</button>
+                {this.state.error}
             </div>
         );
     }
 }
 
-export default Login;
+export default connect((state) => ({ error: getError(state), loggedIn: getLoggedIn(state) }), null)(Login);

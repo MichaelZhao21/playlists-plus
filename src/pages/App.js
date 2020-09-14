@@ -5,6 +5,7 @@ import {
     setUserData,
     setError,
     setLoggedIn,
+    resetState,
 } from '../redux/actions';
 import {
     getAccessToken,
@@ -15,27 +16,38 @@ import {
 } from '../redux/selectors';
 import { connect } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-
 import Login from './Login';
 import Callback from './Callback';
 import User from './User';
-import './css/App.scss';
+import './App.scss';
+import Cookies from 'universal-cookie';
+import { SAVE_KEY } from '../components/cookieConstants';
+import { getKey } from '../components/spotify-middleware';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+
+        // if (window.location.pathname !== '/callback' && window.location.pathname !== '/' && !this.props.loggedIn) {
+        //     var refreshed = getKey();
+        //     if (refreshed === null) window.location = window.location.origin;
+        //     else window.location = window.location.origin + '/user';
+        // }
     }
 
-    logout = () => {
-        console.log('logged out!');
+    logoutButton = () => {
+        resetState();
+        var cookies = new Cookies();
+        cookies.remove(SAVE_KEY);
+        window.location = window.location.origin;
     };
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.props.accessToken !== prevProps.accessToken) {
-            if (this.props.accessToken !== null)
+        if (this.props.loggedIn !== prevProps.loggedIn) {
+            if (this.props.loggedIn !== null)
                 this.setState({
-                    logout: <button onClick={this.logout}>Logout</button>,
+                    logout: <button onClick={this.logoutButton}>Logout</button>,
                 });
             else this.setState({ logout: null });
         }

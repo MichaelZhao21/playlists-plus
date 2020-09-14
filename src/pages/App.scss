@@ -1,8 +1,5 @@
-.App {
-  width: 50%;
-  height: 100%;
-  margin: auto;
-  text-align: center;
+html, body, #root {
+  height: 100%
 }
 
 h1, h2, p, button {
@@ -13,6 +10,19 @@ table {
   margin: auto;
   text-align: left;
   border-collapse: collapse;
+}
+
+.App {
+  width: 50%;
+  height: 100%;
+  margin: auto;
+  text-align: center;
+  padding: 1em;
+  background-color: white;
+}
+
+.login-error {
+  color: red;
 }
 
 .user-table-row td {
