@@ -85,8 +85,6 @@ export async function getKey() {
     const cookies = new Cookies();
     const key = cookies.get(SAVE_KEY) || null;
 
-    console.log(key)
-
     // Check if null
     if (key === null) return null;
 

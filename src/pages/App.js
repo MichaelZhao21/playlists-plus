@@ -21,8 +21,7 @@ import Callback from './Callback';
 import User from './User';
 import './App.scss';
 import Cookies from 'universal-cookie';
-import { SAVE_KEY } from '../components/cookieConstants';
-import { getKey } from '../components/spotify-middleware';
+import { SAVE_KEY, STATE_KEY } from '../components/cookieConstants';
 import Refresh from './Refresh';
 
 class App extends React.Component {
@@ -44,6 +43,7 @@ class App extends React.Component {
         resetState();
         var cookies = new Cookies();
         cookies.remove(SAVE_KEY);
+        cookies.remove(STATE_KEY);
         window.location = window.location.origin;
     };
 

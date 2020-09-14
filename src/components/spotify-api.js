@@ -26,7 +26,7 @@ export function login() {
 
     // Save that string as a cookie
     const cookies = new Cookies();
-    cookies.set(STATE_KEY, state, { sameSite: 'strict', secure: true });
+    cookies.set(STATE_KEY, state);
 
     // Set the scopes to authenticate
     var scope = 'user-read-private user-read-email';

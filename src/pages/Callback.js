@@ -9,23 +9,23 @@ import { Redirect } from 'react-router';
 class Callback extends React.Component {
     constructor(props) {
         super(props);
-        let red = <h2>Loading...</h2>;
-        if (!isCallbackValid()) {
-            if (this.props.loggedIn) {
-                red = <Redirect to="/user" />;
-            } else {
-                this.props.setError(true);
-                red = <Redirect push to="/" />;
-            }
-        }
         this.state = {
-            redirect: red,
+            redirect: <h2>Loading...</h2>,
         };
     }
 
     componentDidMount() {
-        // Fetch tokens after component loads
-        fetchTokens(new URL(window.location).searchParams.toString());
+        if (!isCallbackValid()) {
+            if (this.props.loggedIn) {
+                this.setState({ redirect: <Redirect to="/user" /> });
+            } else {
+                this.props.setError(true);
+                this.setState({ redirect: <Redirect push to="/" /> });
+            }
+        }
+        else
+            // Fetch tokens after component loads
+            fetchTokens(new URL(window.location).searchParams.toString());
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

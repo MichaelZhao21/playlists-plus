@@ -9,8 +9,7 @@ class Refresh extends React.Component {
     }
     componentDidMount() {
         getKey().then((refreshed) => {
-            console.log("um " + refreshed)
-            if (refreshed === null) this.setState({ redirect: <Redirect to="/" /> });
+            if (refreshed === null) window.location = window.location.origin;
             else this.setState({ redirect: <Redirect to={`/${this.props.match.params.name}`} /> });
         });
     }
