@@ -21,16 +21,16 @@ class User extends React.Component {
                     else if (key === 'followers') v2 = value.total;
                     else if (key === 'images') v2 = <img alt="profilePic" src={value[0].url} height="100"/>;
                     tab.push(
-                        <tr className="user-table-row">
-                            <td id={key} className="user-table-col">{key}</td>
-                            <td id={key + '-val'} className="user-table-col">{v2}</td>
+                        <tr key={key + '-row'} className="user-table-row">
+                            <td key={key} className="user-table-col">{key}</td>
+                            <td key={key + '-val'} className="user-table-col">{v2}</td>
                         </tr>
                     );
                 } else
                     tab.push(
-                        <tr className="user-table-row">
-                            <td id={key} className="user-table-col">{key}</td>
-                            <td id={key + '-val'} className="user-table-col">{value}</td>
+                        <tr key={key + '-row'} className="user-table-row">
+                            <td key={key} className="user-table-col">{key}</td>
+                            <td key={key + '-val'} className="user-table-col">{value}</td>
                         </tr>
                     );
             }
@@ -41,7 +41,7 @@ class User extends React.Component {
     render() {
         return (
             <div className="User">
-                <table>{this.state.userInfo}</table>
+                <table><tbody>{this.state.userInfo}</tbody></table>
             </div>
         );
     }

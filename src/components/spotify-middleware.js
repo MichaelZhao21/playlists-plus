@@ -78,12 +78,14 @@ async function getAndSetUserData() {
 /**
  * Gets new tokens from the stored refresh key in cookies
  * If no key exists, return null
- * @returns {Promise<>} Returns null if no saved key or promise
+ * @returns {Promise<boolean>} Returns null if no saved key or promise
  */
-export function getKey() {
+export async function getKey() {
     // Retrieve cookie
     const cookies = new Cookies();
     const key = cookies.get(SAVE_KEY) || null;
+
+    console.log(key)
 
     // Check if null
     if (key === null) return null;

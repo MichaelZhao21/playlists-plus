@@ -23,17 +23,21 @@ import './App.scss';
 import Cookies from 'universal-cookie';
 import { SAVE_KEY } from '../components/cookieConstants';
 import { getKey } from '../components/spotify-middleware';
+import Refresh from './Refresh';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-
-        // if (window.location.pathname !== '/callback' && window.location.pathname !== '/' && !this.props.loggedIn) {
-        //     var refreshed = getKey();
-        //     if (refreshed === null) window.location = window.location.origin;
-        //     else window.location = window.location.origin + '/user';
-        // }
+        
+        if (
+            window.location.pathname !== '/callback' &&
+            window.location.pathname !== '/' &&
+            !window.location.pathname.startsWith('/refresh') &&
+            !this.props.loggedIn
+        ) {
+            window.location.pathname = '/refresh/' + window.location.pathname.substring(1);
+        }
     }
 
     logoutButton = () => {
@@ -59,6 +63,7 @@ class App extends React.Component {
                 <BrowserRouter>
                     {this.state.logout}
                     <Switch>
+                        <Route path="/refresh/:name" component={Refresh} />
                         <Route path="/callback" component={Callback} />
                         <Route path="/user" component={User} />
                         <Route path="/" component={Login} />
