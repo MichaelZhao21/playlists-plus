@@ -17,7 +17,8 @@ const initialState = {
     userNextPlaylistUrl: null,
     error: false,
     loggedIn: false,
-    playlistSongs: new Map(),
+    playlistSongs: {},
+    nextPlaylistSongsUrl: {},
 };
 
 export default function spot(state = initialState, action) {
@@ -72,13 +73,15 @@ export default function spot(state = initialState, action) {
         }
         case ADD_PLAYLIST_SONGS: {
             let playlistSongs = state.playlistSongs;
-            playlistSongs.set(
-                action.payload.playlistName,
-                playlistSongs.get(action.payload.playlistName).concat(action.payload.songs)
-            );
+            let nextTokens = state.nextPlaylistSongsUrl;
+            nextTokens[action.payload.playlistId] = action.payload.nextToken;
+            let oldSongs = playlistSongs[action.payload.playlistId];
+            if (oldSongs === undefined) oldSongs = [];
+            playlistSongs[action.payload.playlistId] = oldSongs.concat(action.payload.playlistSongs);
             return {
                 ...state,
                 playlistSongs: playlistSongs,
+                nextPlaylistSongsUrl: nextTokens
             };
         }
         default:

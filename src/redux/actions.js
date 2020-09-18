@@ -43,7 +43,7 @@ export const addUserPlaylists = (playlists, nextToken) => ({
     payload: { playlists, nextToken },
 });
 
-export const addPlaylistSongs = (playlistName, playlistSongs) => ({
+export const addPlaylistSongs = (playlistId, playlistSongs, nextToken) => ({
     type: ADD_PLAYLIST_SONGS,
-    payload: { playlistName, playlistSongs },
+    payload: { playlistId, playlistSongs, nextToken },
 });

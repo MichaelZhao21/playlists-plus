@@ -11,8 +11,7 @@ import { STATE_KEY } from './cookieConstants';
  */
 var generateRandomString = function (length) {
     var text = '';
-    var possible =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
     for (var i = 0; i < length; i++) {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -49,10 +48,7 @@ export function login() {
 function getAuthHeader() {
     return {
         Authorization:
-            'Basic ' +
-            new Buffer(creds.clientId + ':' + creds.clientSecret).toString(
-                'base64'
-            ),
+            'Basic ' + new Buffer(creds.clientId + ':' + creds.clientSecret).toString('base64'),
         'Content-Type': 'application/x-www-form-urlencoded',
     };
 }
@@ -112,28 +108,25 @@ export async function refreshKey(refreshToken) {
         headers: getAuthHeader(),
     };
 
-    const response = await fetch(
-        'https://accounts.spotify.com/api/token',
-        refreshOptions
-    );
+    const response = await fetch('https://accounts.spotify.com/api/token', refreshOptions);
+    return await response.json();
+}
+
+/**
+ * Use fetch to call a certain API endpoint
+ * 
+ * @param {string} url 
+ * @param {"GET"|"PUT"|"POST"|"DELETE"} method 
+ */
+export async function fetchJson(url, method) {
+    const response = await fetch(url, { method, headers: getBearerHeader() });
     return await response.json();
 }
 
 export async function getUserProfilePrivate() {
-    const response = await fetch('https://api.spotify.com/v1/me', {
-        method: 'GET',
-        headers: getBearerHeader(),
-    });
-    return await response.json();
+    return await fetchJson('https://api.spotify.com/v1/me', 'GET');
 }
 
 export async function getUserPlaylists() {
-    const response = await fetch(
-        'https://api.spotify.com/v1/users/' + getUserId() + '/playlists',
-        {
-            method: 'GET',
-            headers: getBearerHeader(),
-        }
-    );
-    return await response.json();
+    return await fetchJson('https://api.spotify.com/v1/users/' + getUserId() + '/playlists', 'GET');
 }

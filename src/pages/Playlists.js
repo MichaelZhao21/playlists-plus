@@ -18,7 +18,9 @@ class Playlists extends React.Component {
         };
     }
 
-    clickPlaylist = (id) => {};
+    clickPlaylist = (playlistId) => {
+        this.setState({ pl: <Redirect to={"/songs/" + playlistId} /> });
+    };
 
     moreItems = (url) => {
         nextPlaylistPage(url).then((data) => {
@@ -65,7 +67,7 @@ class Playlists extends React.Component {
 
     componentDidMount() {
         if (this.props.userData === null) {
-            this.setState({ userInfo: <Redirect push to="/" /> });
+            this.setState({ pl: <Redirect push to="/" /> });
         } else {
             retrievePlaylists().then((data) => {
                 var pls = [];

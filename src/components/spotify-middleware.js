@@ -1,4 +1,4 @@
-import { getBearerHeader, getTokens, getUserPlaylists, getUserProfilePrivate, refreshKey } from './spotify-api';
+import { fetchJson, getBearerHeader, getTokens, getUserPlaylists, getUserProfilePrivate, refreshKey } from './spotify-api';
 import Cookies from 'universal-cookie';
 import store from '../redux/store';
 import {
@@ -9,8 +9,9 @@ import {
     setLoggedIn,
     resetState,
     addUserPlaylists,
+    addPlaylistSongs
 } from '../redux/actions';
-import { getAccessToken, getNextPlaylistToken, getUserData, getStoredPlaylists } from '../redux/selectors';
+import { getAccessToken, getNextPlaylistToken, getUserData, getStoredPlaylists, getStoredPlaylistById, getPlaylistSongs, getNextSongsToken } from '../redux/selectors';
 import { SAVE_KEY, STATE_KEY } from './cookieConstants';
 
 /**
@@ -158,5 +159,30 @@ export async function nextPlaylistPage(nextToken) {
     const data = await response.json();
     
     store.dispatch(addUserPlaylists(data.items, data.next));
+    return data;
+}
+
+/**
+ * Gets a the list of playlists from the store
+ * or if null retrieves it using the API
+ * 
+ * @returns {Promise<object>} {items: list, next: string}
+ */
+export async function retrieveSongs(id) {
+    var songs = await getPlaylistSongs(store.getState(), id);
+    var token = await getNextSongsToken(store.getState(), id);
+    if (songs !== undefined) {
+        return { items: songs, next: token };
+    }
+
+    var url = getStoredPlaylistById(store.getState(), id).tracks.href;
+    var data = await fetchJson(url, 'GET');
+    store.dispatch(addPlaylistSongs(id, data.items, data.next));
+    return data;
+}
+
+export async function nextSongPage(id, nextToken) {
+    const data = await fetchJson(nextToken, 'GET');
+    store.dispatch(addPlaylistSongs(id, data.items, data.next));
     return data;
 }

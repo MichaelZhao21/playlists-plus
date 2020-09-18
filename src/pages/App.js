@@ -1,19 +1,6 @@
 import React from 'react';
-import {
-    setAccessToken,
-    setRefreshToken,
-    setUserData,
-    setError,
-    setLoggedIn,
-    resetState,
-} from '../redux/actions';
-import {
-    getAccessToken,
-    getRefreshToken,
-    getUserData,
-    getError,
-    getLoggedIn,
-} from '../redux/selectors';
+import { resetState } from '../redux/actions';
+import { getLoggedIn } from '../redux/selectors';
 import { connect } from 'react-redux';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import Login from './Login';
@@ -22,8 +9,8 @@ import User from './User';
 import './App.scss';
 import Cookies from 'universal-cookie';
 import { SAVE_KEY, STATE_KEY } from '../components/cookieConstants';
-import Refresh from './Refresh';
 import Playlists from './Playlists';
+import Songs from './Songs';
 
 class App extends React.Component {
     constructor(props) {
@@ -36,12 +23,12 @@ class App extends React.Component {
             !window.location.pathname.startsWith('/refresh') &&
             !this.props.loggedIn
         ) {
-            window.location.pathname = '/refresh/' + window.location.pathname.substring(1);
+            window.location = window.location.origin;
         }
     }
 
     logoutButton = () => {
-        resetState();
+        this.props.resetState();
         var cookies = new Cookies();
         cookies.remove(SAVE_KEY);
         cookies.remove(STATE_KEY);
@@ -79,10 +66,10 @@ class App extends React.Component {
                         </ul>
                     </div>
                     <Switch>
-                        <Route path="/refresh/:name" component={Refresh} />
                         <Route path="/callback" component={Callback} />
                         <Route path="/user" component={User} />
                         <Route path="/playlists" component={Playlists} />
+                        <Route path="/songs/:id" component={Songs} />
                         <Route exact path="/" component={Login} />
                     </Switch>
                 </BrowserRouter>
@@ -91,20 +78,4 @@ class App extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    accessToken: getAccessToken(state),
-    refreshToken: getRefreshToken(state),
-    userData: getUserData(state),
-    error: getError(state),
-    loggedIn: getLoggedIn(state),
-});
-
-const mapDispatchToProps = {
-    setAccessToken,
-    setRefreshToken,
-    setUserData,
-    setError,
-    setLoggedIn,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect((state) => ({ loggedIn: getLoggedIn(state) }), { resetState })(App);
