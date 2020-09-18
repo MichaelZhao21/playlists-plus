@@ -5,7 +5,7 @@ import { getKey } from '../components/spotify-middleware';
 class Refresh extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { redirect: <div>Loading...</div> };
+        this.state = { redirect: <h2>Loading...</h2> };
     }
     componentDidMount() {
         getKey().then((refreshed) => {
