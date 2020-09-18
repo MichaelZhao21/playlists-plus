@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
-import { getUserPlaylists } from '../components/spotify-api';
 import { nextPlaylistPage, retrievePlaylists } from '../components/spotify-middleware';
 import { getUserData } from '../redux/selectors';
 
