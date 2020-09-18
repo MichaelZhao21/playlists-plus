@@ -31,6 +31,7 @@ class Songs extends React.Component {
         });
     };
 
+    // TODO: Figure out why large amnts of songs = duplicate keys
     createRowItem = (track) => {
         return (
             <tr key={track.id + '-row'} className="table-row">
