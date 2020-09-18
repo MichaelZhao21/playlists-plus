@@ -1,35 +1,65 @@
-html, body, #root {
-  height: 100%
+html,
+body,
+#root {
+    height: 100%;
 }
 
-h1, h2, p, button {
-  text-align: center;
+h1,
+h2,
+p,
+button {
+    text-align: center;
 }
 
 table {
-  margin: auto;
-  text-align: left;
-  border-collapse: collapse;
+    margin: auto;
+    text-align: left;
+    border-collapse: collapse;
 }
 
 .App {
-  width: 50%;
-  height: 100%;
-  margin: auto;
-  text-align: center;
-  padding: 1em;
-  background-color: white;
+    width: 50%;
+    height: 100%;
+    margin: auto;
+    text-align: center;
+    padding: 1em;
+    background-color: white;
 }
 
 .login-error {
-  color: red;
+    color: red;
 }
 
 .user-table-row td {
-  padding: 1vh 0.5vw 1vh 0.5vw;
-  border-bottom: 1px solid #999999;
+    padding: 1vh 0.5vw 1vh 0.5vw;
+    border-bottom: 1px solid #999999;
 }
 
 .logout-button {
-  margin-bottom: 1em;
+    margin-bottom: 1em;
+}
+
+a {
+    transition: 0.3s;
+}
+
+a:hover {
+    color: gold !important;
+    cursor: pointer;
+}
+
+.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0.5em;
+    li {
+        display: inline;
+        padding: 0.5em 1em;
+        a {
+            font-size: larger;
+            font-weight: bolder;
+            color: goldenrod;
+            text-decoration: none;
+        }
+    }
 }

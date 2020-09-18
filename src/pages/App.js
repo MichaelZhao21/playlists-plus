@@ -15,7 +15,7 @@ import {
     getLoggedIn,
 } from '../redux/selectors';
 import { connect } from 'react-redux';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import Login from './Login';
 import Callback from './Callback';
 import User from './User';
@@ -62,12 +62,19 @@ class App extends React.Component {
             <div className="App">
                 <BrowserRouter>
                     <div className="top" style={this.state.topStyle}>
-                        <button
-                            className="logout-button"
-                            onClick={this.logoutButton}
-                        >
-                            Logout
-                        </button>
+                        <ul className="nav">
+                            <li>
+                                <a className="logout-button" onClick={this.logoutButton}>
+                                    Logout
+                                </a>
+                            </li>
+                            <li>
+                                <Link to="/user">Home</Link>
+                            </li>
+                            <li>
+                                <Link to="/playlists">Playlists</Link>
+                            </li>
+                        </ul>
                     </div>
                     <Switch>
                         <Route path="/refresh/:name" component={Refresh} />
