@@ -4,8 +4,6 @@ import {
     SET_USER_DATA,
     SET_ERROR,
     SET_LOGGED_IN,
-    SET_USER_PLAYLISTS,
-    SET_PLAYLIST_SONGS,
     ADD_USER_PLAYLISTS,
     ADD_PLAYLIST_SONGS,
     RESET_STATE,
@@ -16,6 +14,7 @@ const initialState = {
     refreshToken: null,
     userData: null,
     userPlaylists: null,
+    userNextPlaylistUrl: null,
     error: false,
     loggedIn: false,
     playlistSongs: new Map(),
@@ -61,39 +60,21 @@ export default function spot(state = initialState, action) {
                 loggedIn: loggedIn,
             };
         }
-        case SET_USER_PLAYLISTS: {
-            const { playlists } = action.payload;
-            return {
-                ...state,
-                userPlaylists: playlists,
-            };
-        }
         case ADD_USER_PLAYLISTS: {
-            var { playlists } = state.userPlaylists;
-            playlists = playlists.concat(action.payload);
+            var playlists = state.userPlaylists;
+            if (playlists === null) playlists = [];
+            playlists = playlists.concat(action.payload.playlists);
             return {
                 ...state,
                 userPlaylists: playlists,
-            };
-        }
-        case SET_PLAYLIST_SONGS: {
-            let playlistSongs = state.playlistSongs;
-            playlistSongs.set(
-                action.payload.playlistName,
-                action.payload.songs
-            );
-            return {
-                ...state,
-                playlistSongs: playlistSongs,
+                userNextPlaylistUrl: action.payload.nextToken,
             };
         }
         case ADD_PLAYLIST_SONGS: {
             let playlistSongs = state.playlistSongs;
             playlistSongs.set(
                 action.payload.playlistName,
-                playlistSongs
-                    .get(action.payload.playlistName)
-                    .concat(action.payload.songs)
+                playlistSongs.get(action.payload.playlistName).concat(action.payload.songs)
             );
             return {
                 ...state,

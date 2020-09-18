@@ -19,7 +19,6 @@ table {
 
 .App {
     width: 50%;
-    height: 100%;
     margin: auto;
     text-align: center;
     padding: 1em;
@@ -30,13 +29,13 @@ table {
     color: red;
 }
 
-.user-table-row td {
+.table-row td, th {
     padding: 1vh 0.5vw 1vh 0.5vw;
     border-bottom: 1px solid #999999;
 }
 
 .playlists-table-col {
-    min-width: 10vw;
+    width: 10vw;
     text-align: center;
 }
 

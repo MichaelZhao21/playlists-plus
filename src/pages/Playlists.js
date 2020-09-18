@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { getUserPlaylists } from '../components/spotify-api';
+import { nextPlaylistPage, retrievePlaylists } from '../components/spotify-middleware';
 import { getUserData } from '../redux/selectors';
 
 class Playlists extends React.Component {
@@ -21,24 +22,43 @@ class Playlists extends React.Component {
     clickPlaylist = (id) => {};
 
     moreItems = (url) => {
-        console.log(url);
+        nextPlaylistPage(url).then((data) => {
+            var pls = this.state.pl;
+            pls.pop();
+            data.items.forEach((item) => {
+                pls.push(this.createRowItem(item));
+            });
+            if (data.next) pls.push(this.addLoadMoreRow(data.next));
+            this.setState({ pl: null });
+            this.setState({ pl: pls });
+        });
     };
 
     createRowItem = (item) => {
         return (
             <tr
                 key={item.id + '-row'}
-                className="user-table-row"
+                className="table-row"
                 onClick={() => this.clickPlaylist(item.id)}
             >
-                <td className="user-table-col playlists-table-col" key={item.id + '-name'}>
+                <td className="table-col playlists-table-col" key={item.id + '-name'}>
                     {item.name}
                 </td>
-                <td className="user-table-col playlists-table-col" key={item.id + '-count'}>
+                <td className="table-col playlists-table-col" key={item.id + '-count'}>
                     {item.tracks.total}
                 </td>
-                <td className="user-table-col playlists-table-col" key={item.id + '-owner'}>
+                <td className="table-col playlists-table-col" key={item.id + '-owner'}>
                     {item.owner.id}
+                </td>
+            </tr>
+        );
+    };
+
+    addLoadMoreRow = (next) => {
+        return (
+            <tr key="next" className="table-row" onClick={() => this.moreItems(next)}>
+                <td className="table-col playlists-table-col a" colSpan={3} key={'next-link'}>
+                    Load more playlists...
                 </td>
             </tr>
         );
@@ -48,28 +68,12 @@ class Playlists extends React.Component {
         if (this.props.userData === null) {
             this.setState({ userInfo: <Redirect push to="/" /> });
         } else {
-            getUserPlaylists().then((data) => {
+            retrievePlaylists().then((data) => {
                 var pls = [];
                 data.items.forEach((item) => {
                     pls.push(this.createRowItem(item));
                 });
-                if (data.next) {
-                    pls.push(
-                        <tr
-                            key="next"
-                            className="user-table-row"
-                            onClick={() => this.moreItems(data.next)}
-                        >
-                            <td
-                                className="user-table-col playlists-table-col a"
-                                colSpan={3}
-                                key={'next-link'}
-                            >
-                                Load more playlists...
-                            </td>
-                        </tr>
-                    );
-                }
+                if (data.next) pls.push(this.addLoadMoreRow(data.next));
                 this.setState({ pl: pls });
             });
         }
@@ -80,7 +84,7 @@ class Playlists extends React.Component {
             <div className="Playlists">
                 <table>
                     <tbody>
-                        <tr className="user-table-row">
+                        <tr className="table-row">
                             <th className="playlists-table-col">Name</th>
                             <th className="playlists-table-col">Songs</th>
                             <th className="playlists-table-col">Owner</th>

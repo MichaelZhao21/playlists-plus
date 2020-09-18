@@ -60,7 +60,7 @@ function getAuthHeader() {
 /**
  * @returns {object} A simple object with the Bearer authorization header
  */
-function getBearerHeader() {
+export function getBearerHeader() {
     return {
         Authorization: 'Bearer ' + loadAccessToken(),
     };

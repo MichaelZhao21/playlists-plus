@@ -4,9 +4,7 @@ import {
     SET_USER_DATA,
     SET_ERROR,
     SET_LOGGED_IN,
-    SET_USER_PLAYLISTS,
     ADD_USER_PLAYLISTS,
-    SET_PLAYLIST_SONGS,
     ADD_PLAYLIST_SONGS,
     RESET_STATE,
 } from './actionTypes';
@@ -40,19 +38,9 @@ export const setLoggedIn = (loggedIn) => ({
     payload: { loggedIn },
 });
 
-export const setUserPlaylists = (playlists) => ({
-    type: SET_USER_PLAYLISTS,
-    payload: { playlists },
-});
-
-export const addUserPlaylists = (playlists) => ({
+export const addUserPlaylists = (playlists, nextToken) => ({
     type: ADD_USER_PLAYLISTS,
-    payload: { playlists },
-});
-
-export const setPlaylistSongs = (playlistName, playlistSongs) => ({
-    type: SET_PLAYLIST_SONGS,
-    payload: { playlistName, playlistSongs },
+    payload: { playlists, nextToken },
 });
 
 export const addPlaylistSongs = (playlistName, playlistSongs) => ({
