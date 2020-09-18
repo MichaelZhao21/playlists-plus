@@ -23,6 +23,7 @@ import './App.scss';
 import Cookies from 'universal-cookie';
 import { SAVE_KEY, STATE_KEY } from '../components/cookieConstants';
 import Refresh from './Refresh';
+import Playlists from './Playlists';
 
 class App extends React.Component {
     constructor(props) {
@@ -64,6 +65,7 @@ class App extends React.Component {
                     <div className="top" style={this.state.topStyle}>
                         <ul className="nav">
                             <li>
+                                {/* eslint-disable-next-line */}
                                 <a className="logout-button" onClick={this.logoutButton}>
                                     Logout
                                 </a>
@@ -80,7 +82,8 @@ class App extends React.Component {
                         <Route path="/refresh/:name" component={Refresh} />
                         <Route path="/callback" component={Callback} />
                         <Route path="/user" component={User} />
-                        <Route path="/" component={Login} />
+                        <Route path="/playlists" component={Playlists} />
+                        <Route exact path="/" component={Login} />
                     </Switch>
                 </BrowserRouter>
             </div>

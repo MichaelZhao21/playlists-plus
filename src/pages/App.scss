@@ -35,14 +35,18 @@ table {
     border-bottom: 1px solid #999999;
 }
 
-.logout-button {
-    margin-bottom: 1em;
+.playlists-table-col {
+    min-width: 10vw;
+    text-align: center;
 }
 
+.a,
 a {
-    transition: 0.3s;
+    transition: 0.2s;
+    color: goldenrod;
 }
 
+.a:hover,
 a:hover {
     color: gold !important;
     cursor: pointer;
@@ -55,11 +59,19 @@ a:hover {
     li {
         display: inline;
         padding: 0.5em 1em;
+        .a,
         a {
             font-size: larger;
             font-weight: bolder;
-            color: goldenrod;
             text-decoration: none;
         }
     }
+}
+
+.hidden {
+    display: none;
+}
+
+.show {
+    display: block;
 }
