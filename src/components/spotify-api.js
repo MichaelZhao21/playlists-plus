@@ -102,7 +102,7 @@ export function getTokens(params) {
     return fetch('https://accounts.spotify.com/api/token', authOptions);
 }
 
-export function refreshKey(refreshToken) {
+export async function refreshKey(refreshToken) {
     const refreshOptions = {
         method: 'POST',
         body: querystring.encode({
@@ -112,25 +112,28 @@ export function refreshKey(refreshToken) {
         headers: getAuthHeader(),
     };
 
-    return fetch(
+    const response = await fetch(
         'https://accounts.spotify.com/api/token',
         refreshOptions
-    ).then((response) => response.json());
+    );
+    return await response.json();
 }
 
-export function getUserProfilePrivate() {
-    return fetch('https://api.spotify.com/v1/me', {
+export async function getUserProfilePrivate() {
+    const response = await fetch('https://api.spotify.com/v1/me', {
         method: 'GET',
         headers: getBearerHeader(),
-    }).then((response) => response.json());
+    });
+    return await response.json();
 }
 
-export function getUserPlaylists() {
-    return fetch(
+export async function getUserPlaylists() {
+    const response = await fetch(
         'https://api.spotify.com/v1/users/' + getUserId() + '/playlists',
         {
             method: 'GET',
             headers: getBearerHeader(),
         }
-    ).then((response) => response.json());
+    );
+    return await response.json();
 }
